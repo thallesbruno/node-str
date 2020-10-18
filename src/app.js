@@ -24,7 +24,7 @@ router.put('/put', (req, res, next) => {
     res.status(428).send({
         title: "Testando o PUT",
         version: "0.0.1",
-        info: ""
+        info: "Alterando por PUT"
     });
 });
 
