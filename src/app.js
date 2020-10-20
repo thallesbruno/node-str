@@ -11,6 +11,8 @@ mongoose.connect(
     'mongodb+srv://bruno:bruno@ndstr.6pwh5.azure.mongodb.net/<dbname>?retryWrites=true&w=majority'
 );
 
+const Product = require('./models/product');
+
 //Carrega as rotas
 const indexRoute = require('./routes/index-route');
 const productRoute = require('./routes/product-route');
