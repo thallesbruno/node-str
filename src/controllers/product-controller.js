@@ -32,7 +32,21 @@ exports.getBySlug = (req, res, next) => {
 
 exports.getById = (req, res, next) => {
     Product
-        .findById( req.params.id)
+        .findById(req.params.id)
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(e => {
+            res.status(400).send(e);
+        });
+};
+
+exports.getByTag = (req, res, next) => {
+    Product
+        .find({
+            tag: req.params.tag,
+            active: true
+        }, 'title description price slug tags')
         .then(data => {
             res.status(200).send(data);
         })
