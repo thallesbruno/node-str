@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
+const ValidationContract = require('../validators/fluent-validator');
 
 exports.get = (req, res, next) => {
     Product
@@ -44,7 +45,7 @@ exports.getById = (req, res, next) => {
 exports.getByTag = (req, res, next) => {
     Product
         .find({
-            tag: req.params.tag,
+            tags: req.params.tag,
             active: true
         }, 'title description price slug tags')
         .then(data => {
@@ -56,6 +57,17 @@ exports.getByTag = (req, res, next) => {
 };
 
 exports.post = (req, res, next) => {
+    let contract = new ValidationContract();
+    contract.hasMinLen(req.body.title, 3, 'O título deve ter pelo menos 3 caracteres.');
+    contract.hasMinLen(req.body.slug, 3, 'O resumo deve ter pelo menos 3 caracteres.');
+    contract.hasMinLen(req.body.description, 3, 'A descrição deve ter pelo menos 3 caracteres.');
+
+    //se os dados forem inválidos
+    if (!contract.isValid()){
+        res.status(400).send(contract.errors()).end;
+        return;
+    }
+
     var product = new Product(req.body);
     product
         .save()
@@ -79,7 +91,8 @@ exports.put = (req, res, next) => {
                 title: req.body.title,
                 description: req.body.description,
                 price: req.body.price,
-                slug: req.body.slug
+                slug: req.body.slug,
+                //tags: req.body.tag
             }
         }).then(x => {
             res.status(201).send(
@@ -95,7 +108,7 @@ exports.put = (req, res, next) => {
 
 exports.delete = (req, res, next) => {
     Product
-        .findByIdAndDelete(req.body.id)
+        .findByIdAndRemove(req.body.id)
         .then(x => {
             res.status(201).send(
                 {message: 'Produto removido com sucesso!'}
