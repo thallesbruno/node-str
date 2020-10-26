@@ -27,7 +27,7 @@ exports.getBySlug = async(req, res, next) => {
     };
 };
 
-exports.getById = (req, res, next) => {
+exports.getById = async(req, res, next) => {
     try {
         var data = await repository.getById(req.params.id);
         res.status(200).send(data);
@@ -38,9 +38,9 @@ exports.getById = (req, res, next) => {
     };
 };
 
-exports.getByTag = (req, res, next) => {
+exports.getByTag = async(req, res, next) => {
     try {
-        const data = await repository.getByTag(req.params.tag);
+        var data = await repository.getByTag(req.params.tag);
         res.status(200).send(data);
     }catch (e) {
         res.status(500).send({

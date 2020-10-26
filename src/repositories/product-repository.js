@@ -7,7 +7,7 @@ exports.get = async() => {
     const res = await Product
         .find({
             active: true
-        }, 'title price slug');
+        }, 'title price slug tags');
         return res;
 }
 
@@ -22,15 +22,12 @@ exports.getBySlug = async(slug) => {
 
 exports.getById = async(id) => {
     const res =  await Product
-        .findById({
-            id: this.id,
-            active: true
-        }, 'title description price slug tags');
+        .findById(id);
     return res;
 };
 
 exports.getByTag = async(tag) => {
-    const res = await  Product
+    const res = await Product
         .find({
             tags: tag,
             active: true
