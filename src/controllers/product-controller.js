@@ -28,25 +28,25 @@ exports.getBySlug = async(req, res, next) => {
 };
 
 exports.getById = (req, res, next) => {
-    repository
-        .getById(req.params.id)
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);
+    try {
+        var data = await repository.getById(req.params.id);
+        res.status(200).send(data);
+    }catch (e) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
         });
+    };
 };
 
 exports.getByTag = (req, res, next) => {
-    repository
-        .getByTag(req.params.tag)
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);
+    try {
+        const data = await repository.getByTag(req.params.tag);
+        res.status(200).send(data);
+    }catch (e) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
         });
+    };
 };
 
 exports.post = (req, res, next) => {
