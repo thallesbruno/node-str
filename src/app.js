@@ -1,5 +1,6 @@
 'use strict';
 
+const dotenv = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -22,5 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', indexRoute);
 app.use('/products', productRoute);
+
+dotenv.config();
 
 module.exports = app;
