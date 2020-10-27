@@ -49,7 +49,7 @@ exports.getByTag = async(req, res, next) => {
     };
 };
 
-exports.post = (req, res, next) => {
+exports.post = async(req, res, next) => {
     let contract = new ValidationContract();
     contract.hasMinLen(req.body.title, 3, 'O título deve ter pelo menos 3 caracteres.');
     contract.hasMinLen(req.body.slug, 3, 'O resumo deve ter pelo menos 3 caracteres.');
@@ -61,47 +61,40 @@ exports.post = (req, res, next) => {
         return;
     }
 
-    repository
-        .create(req.body)
-        .then(x => {
-            res.status(201).send(
-                {message: 'Produto cadastrado com sucesso!'}
-            );
-        })
-        .catch(e => {
-            res.status(400).send({
-                    message: 'Falha ao cadastrar produto!',
-                    data: e
-            });
+    try {
+        await repository.create(req.body);
+        res.status(201).send({
+            message: 'Produto cadastrado com sucesso!'}
+        );
+    } catch (e) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
         });
+    };
 };
 
-exports.put = (req, res, next) => {
-    repository
-        .update(req.params.id, req.body)
-        .then(x => {
-                res.status(201).send(
-                    {message: 'Produto atualizado com sucesso!'}
-                );
-            }).catch(e => {
-                res.status(400).send({
-                        message: 'Falha ao atualizar produto!',
-                        data: e
-                });
-            });
+exports.put = async(req, res, next) => {
+    try {
+        await repository.update(req.params.id, req.body);
+        res.status(200).send(
+            {message: 'Produto atualizado com sucesso!'}
+        );
+    } catch (e) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
+        });
+    };
 };
 
-exports.delete = (req, res, next) => {
-    repository
-        .delete(req.body.id)
-        .then(x => {
-            res.status(201).send(
-                {message: 'Produto removido com sucesso!'}
-            );
-        }).catch(e => {
-            res.status(400).send({
-                    message: 'Falha ao remover produto!',
-                    data: e
-            });
+exports.delete = async(req, res, next) => {
+    try {
+        await repository.delete(req.body.id);
+        res.status(201).send(
+            {message: 'Produto removido com sucesso!'}
+        );
+    } catch (e) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
         });
+    };
 };
