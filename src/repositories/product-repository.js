@@ -9,7 +9,7 @@ exports.get = async() => {
             active: true
         }, 'title price slug tags');
         return res;
-}
+};
 
 exports.getBySlug = async(slug) => {
     const res = await Product

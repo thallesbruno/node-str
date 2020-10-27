@@ -15,18 +15,20 @@ mongoose.connect(
 
 //Carrega os models
 const Product = require('./models/product');
-const Costumer = require('./models/costumer');
+const Customer = require('./models/customer');
 const Order = require('./models/order');
 
 //Carrega as rotas
 const indexRoute = require('./routes/index-route');
 const productRoute = require('./routes/product-route');
+const customerRoute = require('./routes/customer-route');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', indexRoute);
 app.use('/products', productRoute);
+app.use('/customers', customerRoute);
 
 dotenv.config();
 
