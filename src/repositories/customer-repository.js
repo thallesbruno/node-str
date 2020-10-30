@@ -13,3 +13,8 @@ exports.create = async(data) => {
     var customer = new Customer(data);
     await customer.save();
 };
+
+exports.delete = async(id) => {
+    await Customer
+        .findByIdAndRemove(id);
+};
