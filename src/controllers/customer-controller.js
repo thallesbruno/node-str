@@ -39,14 +39,14 @@ exports.post = async(req, res, next) => {
         emailService.send(
             req.body.email,
             'Bem vindo ao Node Store',
-            global.EMAIL_TMPL.replace('{0}', red.body.name));
+            global.EMAIL_TMPL.replace('{0}', req.body.name));
 
         res.status(201).send({
             message: 'Cliente cadastrado com sucesso!'}
         );
     } catch (e) {
         res.status(500).send({
-            message: 'Falha ao processar sua requisição.'
+            message: 'Falha ao processar sua requisição: ' + e
         });
     };
 };
