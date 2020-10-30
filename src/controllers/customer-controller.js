@@ -4,6 +4,7 @@ const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/customer-repository');
 const md5 = require('md5');
 
+
 exports.get = async(req, res, next) => {
     try {
         var data = await repository.get();
