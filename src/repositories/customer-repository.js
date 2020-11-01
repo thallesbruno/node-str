@@ -8,7 +8,6 @@ exports.get = async(data) => {
     return res;
 };
 
-
 exports.create = async(data) => {
     var customer = new Customer(data);
     await customer.save();
@@ -17,4 +16,12 @@ exports.create = async(data) => {
 exports.delete = async(id) => {
     await Customer
         .findByIdAndRemove(id);
+};
+
+exports.authenticate = async(data) => {
+    const res = await Customer.findOne({
+        email: data.email,
+        password: data.password
+    });
+    return res;
 };
