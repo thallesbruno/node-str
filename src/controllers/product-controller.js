@@ -4,6 +4,7 @@ const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/product-repository');
 const azure = require('azure-storage');
 const guid = require('guid');
+var config = require('../config');
 
 exports.get = async(req, res, next) => {
     try {
@@ -63,7 +64,7 @@ exports.post = async(req, res, next) => {
 
     try {
         //cria o blob service
-        const blobSvc = azure.createBlobService(config.userImageBlobConnectionString);
+        const blobSvc = azure.createBlobService(config.containerConnectionString);
 
         let filename = guid.raw().toString() + '.jpg';
         let rawdata = req.body.image;
@@ -87,12 +88,13 @@ exports.post = async(req, res, next) => {
             price: req.body.price,
             active: true,
             tags: req.body.tags,
-            image: filename
+            image: 'https://nodestore2020.blob.core.windows.net/product-images/' + filename
         });
         res.status(201).send({
             message: 'Produto cadastrado com sucesso!'}
         );
     } catch (e) {
+        console.log(e);
         res.status(500).send({
             message: 'Falha ao processar sua requisição'
         });
